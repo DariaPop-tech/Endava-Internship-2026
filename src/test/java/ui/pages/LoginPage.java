@@ -7,7 +7,6 @@ import com.microsoft.playwright.options.AriaRole;
 public class LoginPage {
 
     private Page page;
-    private HomePage homePage;
     private final String signinRoute = "/signin";
     private final String homePageTransactionList = "//div[@data-test='transaction-list']";
 
@@ -21,7 +20,7 @@ public class LoginPage {
         this.page = page;
 
         usernameInput = page.locator("#username");
-        passwordInput = page.locator("#password");
+        passwordInput = page.getByLabel("Password");
         signButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign In"));
     }
 
