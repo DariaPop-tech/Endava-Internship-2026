@@ -14,6 +14,7 @@ public class LoginPage {
     private Locator usernameInput;
     private Locator passwordInput;
     private Locator signButton;  // = login button
+    private Locator invalidCredentialsMessage;
 
     // Initialization
     public void init(Page page) {
@@ -22,6 +23,10 @@ public class LoginPage {
         usernameInput = page.locator("#username");
         passwordInput = page.getByLabel("Password");
         signButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Sign In"));
+        invalidCredentialsMessage = page.getByText(
+                "Username or password is invalid",
+                new Page.GetByTextOptions().setExact(true)
+        );
     }
 
     public void openLoginPage(String baseUrl) {
@@ -38,6 +43,15 @@ public class LoginPage {
 
     public void clickLogin() {
         signButton.click();
+    }
+
+    public boolean isInvalidCredentialsMessageVisible() {
+        invalidCredentialsMessage.waitFor();
+        return invalidCredentialsMessage.isVisible();
+    }
+
+    public boolean isOnLoginPage() {
+        return page.url().endsWith(signinRoute);
     }
 
     public HomePage login(String username, String password) {

@@ -30,4 +30,20 @@ class LoginTest extends BaseTest {
                 "Logout button should be visible after successful login"
         );
     }
+
+    @Test
+    void userCannotLoginWithInvalidCredentials() {
+        LoginPage loginPage = new LoginPage();
+        loginPage.init(page);
+
+        loginPage.openLoginPage(ConfigManager.get("base.url"));
+        loginPage.enterUsername("invalid-user");
+        loginPage.enterPassword("invalid-password");
+        loginPage.clickLogin();
+
+        assertTrue(loginPage.isInvalidCredentialsMessageVisible(),
+                "Invalid credentials error should be visible");
+        assertTrue(loginPage.isOnLoginPage(),
+                "User should remain on the sign-in page after a failed login");
+    }
 }
